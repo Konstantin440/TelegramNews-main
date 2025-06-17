@@ -1,0 +1,50 @@
+package org.example.telegramnews.bot;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+@Component
+public class BotNews extends TelegramLongPollingBot {
+    @Value("${telegram.bot.username}")
+    private String botUsername;//имя бота
+
+    @Value("${telegram.bot.token}")
+    private String botToken;//токен бота
+
+    public BotNews() {
+        super("8020461825:AAG4RpTgVY9_0hwsO2yzK8I_q9UT3sNUX9E");
+    }
+
+    @Override
+    public String getBotUsername() {
+        return botUsername;
+    }
+
+    @Override
+    public void onUpdateReceived(Update update) {
+        // Проверяем, есть ли сообщение и текст
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            Long chatId = update.getMessage().getChatId();        // получаем ID чата
+            String userMessage = update.getMessage().getText();   // получаем текст от пользователя
+
+            String responseText = "Привет, я бот! Ты написал: " + userMessage;
+
+
+            // Отправляем ответ
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setChatId(chatId.toString());
+            sendMessage.setText(responseText);
+
+            try {
+                execute(sendMessage); // отправляем сообщение
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+

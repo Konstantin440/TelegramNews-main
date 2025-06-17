@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: TelegramNews
+
+server:
+  port: 8090
+
+telegram:
+  bot:
+    username: NewsJava08_06Bot
+    token: 8020461825:AAG4RpTgVY9_0hwsO2yzK8I_q9UT3sNUX9E
+
+newsapi:
+  key: 351a0ed4ce844e969d6c91a39a982ef3
